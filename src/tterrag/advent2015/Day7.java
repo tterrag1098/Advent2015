@@ -26,7 +26,7 @@ public class Day7 {
         OR((a, b) -> a | b),
         NOT((a, b) -> ~a),
         LSHIFT((a, b) -> a << b),
-        RSHIFT((a, b) -> a >> b),
+        RSHIFT((a, b) -> a >>> b),
         CONSTANT((a, b) -> a);
 
         private final IntBinaryOperator op;
@@ -55,8 +55,9 @@ public class Day7 {
             if (values.containsKey(output)) {
                 return values.get(output);
             }
-            System.out.println(values);
-            return values.put(output, op.applyAsInt(a.getAsInt(), b == null ? 0 : b.getAsInt()));
+            int res = op.applyAsInt(a.getAsInt(), b == null ? 0 : b.getAsInt());
+            values.put(output, res);
+            return res;
         }
 
         public static Instruction fromString(String s) {
@@ -91,7 +92,11 @@ public class Day7 {
                 @Override
                 public int getAsInt() {
                     // This is the recursion base case
-                    return Integer.parseInt(getInputA());
+                    if (values.containsKey(getOutput())) {
+                        return values.get(getOutput());
+                    }
+                    values.put(getOutput(), Integer.parseInt(getInputA()));
+                    return values.get(getOutput());
                 }
             };
         }
@@ -103,8 +108,12 @@ public class Day7 {
             Instruction i = Instruction.fromString(s);
             instructions.put(i.getOutput(), i);
         });
-
-        System.out.println(instructions.get("a").getAsInt());
+        
+        int output = instructions.get("a").getAsInt();
+        System.out.println("a1: " + output); 
+        values.clear();
+        instructions.put("b", Instruction.fromString(output + " -> b"));
+        System.out.println("a2: " + instructions.get("a").getAsInt());
     }
 
 }
