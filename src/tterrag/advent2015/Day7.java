@@ -21,7 +21,7 @@ import org.apache.commons.lang.math.NumberUtils;
 public class Day7 {
 
     @RequiredArgsConstructor
-    enum Operator implements IntBinaryOperator {
+    private enum Operator implements IntBinaryOperator {
         AND((a, b) -> a & b),
         OR((a, b) -> a | b),
         NOT((a, b) -> ~a),
@@ -43,7 +43,7 @@ public class Day7 {
     @Value
     @RequiredArgsConstructor
     @NonFinal
-    static class Instruction implements IntSupplier {
+    private static class Instruction implements IntSupplier {
 
         Operator op;
         String inputA, inputB, output;

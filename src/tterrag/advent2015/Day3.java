@@ -38,5 +38,26 @@ public class Day3 {
             }
         }
         System.out.println(houses);
+        
+        visited.clear();
+        houses = 1;
+        int counter = 0;
+        Point p2 = p = new Point(0, 0);
+        visited.add(p);
+        for (int i : directions.chars().toArray()) {
+            Point cur = counter % 2 == 0 ? new Point(p) : new Point(p2);
+            Point move = charmap.get(i);
+            cur.translate(move.x, move.y);
+            if (visited.add(cur)) {
+                houses++;
+            }
+            if (counter % 2 == 0) {
+                p = cur;
+            } else {
+                p2 = cur;
+            }
+            counter++;
+        }
+        System.out.println(houses);
     }
 }
